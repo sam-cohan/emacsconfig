@@ -6,7 +6,7 @@
 ;; (e.g. see elisp/magit-mode-ext.el). However, I try to keep all of the configuration for those modes (like
 ;; keybindings) here in init.el.
 ;;
-
+(setq debug-on-error t)
 ;;
 ;; Color scheme
 ;;
@@ -593,6 +593,7 @@
 (ido-mode t)
 (ido-ubiquitous-mode t)
 (ido-vertical-mode t)
+(setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
 (with-eval-after-load "ido"
   (setq ido-enable-flex-matching t)
   (setq ido-use-virtual-buffers t)
