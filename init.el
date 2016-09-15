@@ -517,15 +517,15 @@
 (util/define-keys osx-keys-minor-mode-map
                   (kbd "M-`") 'other-frame
                   (kbd "M-~") '(lambda () (interactive) (other-frame -1))
-                  (kbd "M-w") 'vimlike-quit
+                  ;; (kbd "M-w") 'vimlike-quit
                   (kbd "M-q") 'save-buffers-kill-terminal
-                  (kbd "M-n") 'new-frame
+                  ;; (kbd "M-n") 'new-frame
                   (kbd "M-a") 'mark-whole-buffer
-                  (kbd "M-h") 'ns-do-hide-emacs
+                  ;; (kbd "M-h") 'ns-do-hide-emacs
                   (kbd "M-v") 'clipboard-yank
                   (kbd "M-c") 'clipboard-kill-ring-save
-                  (kbd "M-m") 'iconify-or-deiconify-frame
-                  (kbd "M-W") 'evil-quit ; Close all tabs in the current frame..
+                  ;; (kbd "M-m") 'iconify-or-deiconify-frame
+                  ;; (kbd "M-W") 'evil-quit ; Close all tabs in the current frame..
                   (kbd "M--") 'text-zoom-out
                   (kbd "M-=") 'text-zoom-in
                   (kbd "M-0") 'text-zoom-reset
@@ -870,8 +870,46 @@
 (defface powerline-black-face
   '((t (:background "#191919" :inherit mode-line)))
   "Face for powerline")
+(defun powerline-personal-theme ()
+  "My customized powerline, copied and slightly modified from the default theme in powerline.el."
+  (interactive)
+  (setq-default mode-line-format
+                '("%e"
+                  (:eval
+                   (let* ((active (powerline-selected-window-active))
+                          (mode-line (if active 'mode-line 'mode-line-inactive))
+                          (face1 (if active 'powerline-active1 'powerline-inactive1))
+                          (face2 (if active 'powerline-active2 'powerline-inactive2))
+                          (separator-left (intern (format "powerline-%s-%s"
+                                                          powerline-default-separator
+                                                          (car powerline-default-separator-dir))))
+                          (separator-right (intern (format "powerline-%s-%s"
+                                                           powerline-default-separator
+                                                           (cdr powerline-default-separator-dir))))
+                          (lhs (list (powerline-raw "%*" 'powerline-black-face 'l)
+                                     (powerline-buffer-id 'powerline-black-face 'l)
+                                     (powerline-raw " " 'powerline-black-face)
+                                     ;; (powerline-projectile-project-name 'powerline-black-face 'l)
+                                     (powerline-raw " " 'powerline-black-face)
+                                     (powerline-major-mode face1 'l)
+                                     (powerline-process face1)
+                                     (powerline-minor-modes face1 'l)
+                                     (powerline-narrow face1 'l)
+                                     (powerline-raw " " face1)))
+                          (rhs (list (powerline-raw global-mode-string face2 'r)
+                                     ;; "Version control" - show the modeline of any active VC mode.
+                                     (powerline-vc face1 'r)
+                                     (powerline-raw "%4l" face1 'l) ; Current line number
+                                     (powerline-raw ":" face1 'l)
+                                     (powerline-raw "%3c" face1 'r) ; Current column number
+                                     (powerline-raw " " face1))))
+                     (concat (powerline-render lhs)
+                             (powerline-fill face1 (powerline-width rhs))
+                             (powerline-render rhs)))))))
 
-;;
+(powerline-personal-theme)
+
+;
 ;; Markdown
 ;;
 (require 'markdown-mode-lite)

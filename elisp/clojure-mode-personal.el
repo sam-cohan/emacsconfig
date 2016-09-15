@@ -38,9 +38,9 @@
 
 ;; Don't ask confirmation for closing any open nrepl connections when exiting Emacs.
 ;; http://stackoverflow.com/q/2706527/46237
-(defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
-  "Prevent annoying \"Active processes exist\" query when you quit Emacs."
-  (flet ((process-list ())) ad-do-it))
+;; (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
+;;  "Prevent annoying \"Active processes exist\" query when you quit Emacs."
+;;  (flet ((process-list ())) ad-do-it))
 
 (evil-define-operator evil-cider-eval (beg end)
   "Evaluate the text region moved over by an evil motion."
@@ -147,21 +147,6 @@
             (kbd "C-;") 'cider-eval-expression-at-point-in-repl)
 
 (evil-leader/set-key-for-mode 'clojure-mode
-  "eap" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-eval-paragraph))
-  "ek" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-find-and-clear-repl-buffer))
-  "eb" (lambda ()
-         (interactive)
-         (save-buffer)
-         ;; Note that I actually use cider-load-file here, not cider-eval-buffer, because it gives useful line
-         ;; numbers on exceptions.
-         (with-nrepl-connection-of-current-buffer 'cider-load-buffer))
-  ;; cider-restart-nrepl is more handy than cider-jack-in, because it doesn't leave existing repls running.
-  "en" 'my-cider-restart-nrepl
-  ;; This function actually CPs the current s-expr into the REPL, rather the just printing the result:
-  ;; TODO(harry) Port the other similar functions to have the same behavior
-  "es" 'my-cider-eval-current-sexp-in-repl
-  "ex" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-eval-defun-at-point))
-  "er" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-eval-region))
   "nj" 'cider-jack-in
   "nn" 'cider-repl-set-ns
   ;; This command sets and pulls up the appropriate nREPL for the current buffer. Useful when you have
@@ -169,19 +154,27 @@
   "nb" 'cider-switch-to-repl-buffer
   "nt" 'cider-toggle-trace
   "nc" 'cider-find-and-clear-repl-buffer
-  )
-
-;; NOTE(harry) These are the simpler commands I had before:
-;; (evil-leader/set-key-for-mode 'clojure-mode
-;;   "eb" 'cider-load-current-buffer
-;;   "es" 'cider-eval-expression-at-point
-;;   "er" 'cider-eval-region
-;;   "nj" 'cider-jack-in
-;;   "nn" 'cider-repl-set-ns
-;;   ;; This command sets and pulls up the appropriate nREPL for the current buffer. Useful when you have
-;;   ;; multiple REPLs going.
-;;   "nb" 'cider-switch-to-repl-buffer
-;;   "nt" 'cider-toggle-trace)
+  ;; "eb" 'cider-load-buffer
+  "eb" 'cider-load-file
+  "es" 'cider-eval-defun-at-point
+  "ex" 'cider-eval-last-sexp-to-repl
+  "er" 'cider-eval-region
+  ;; "eap" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-eval-paragraph))
+  ;; "ek" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-find-and-clear-repl-buffer))
+  ;; "eb" (lambda ()
+         ;; (interactive)
+         ;; (save-buffer)
+         ;; Note that I actually use cider-load-file here, not cider-eval-buffer, because it gives useful line
+         ;; numbers on exceptions.
+         ;; (with-nrepl-connection-of-current-buffer 'cider-load-buffer))
+  ;; cider-restart-nrepl is more handy than cider-jack-in, because it doesn't leave existing repls running.
+  ;; "en" 'my-cider-restart-nrepl
+  ;; This function actually CPs the current s-expr into the REPL, rather the just printing the result:
+  ;; TODO(harry) Port the other similar functions to have the same behavior
+  ;; "es" 'my-cider-eval-current-sexp-in-repl
+  ;; "ex" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-eval-defun-at-point))
+  ;; "er" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-eval-region))
+)
 
 ;; Clojure indentation rules
 (eval-after-load 'clojure-mode
@@ -224,7 +217,7 @@ but doesn't treat single semicolons as right-hand-side comments."
         (goto-char (- (point-max) pos)))))
 
 
-(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+(add-hook 'cider-mode-hook 'eldoc-mode)
 ;; (setq cider-repl-popup-stacktraces t)
 (setq cider-repl-print-length 100)
 (setq cider-repl-use-clojure-font-lock t)
