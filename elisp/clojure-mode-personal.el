@@ -154,10 +154,10 @@
   "nb" 'cider-switch-to-repl-buffer
   "nt" 'cider-toggle-trace
   "nc" 'cider-find-and-clear-repl-buffer
-  ;; "eb" 'cider-load-buffer
-  "eb" 'cider-load-file
+  "eb" 'cider-load-buffer
+  ;; "eb" 'cider-load-file
   "es" 'cider-eval-defun-at-point
-  "ex" 'cider-eval-last-sexp-to-repl
+  "ex" 'cider-eval-last-sexp
   "er" 'cider-eval-region
   ;; "eap" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-eval-paragraph))
   ;; "ek" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-find-and-clear-repl-buffer))
