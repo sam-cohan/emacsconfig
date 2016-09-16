@@ -720,6 +720,43 @@
 (put '->> 'lisp-indent-function nil)
 
 ;;
+;; Projectile (find file from the root of the current project).
+;;
+(projectile-global-mode)
+;; NOTE(philc): Using this cache is annoying because it gets stale if files appear on disk after a git pull.
+;; However, in my large repos, without it, projectile-find-file takes about 1s to open, which is an
+;; unacceptable delay.
+(setq projectile-enable-caching t)
+
+(defun restart-projectile-find-file-hook ()
+  (remove-hook 'post-command-hook 'restart-projectile-find-file-hook)
+  (let ((query previous-projectile-input))
+    (makunbound 'previous-projectile-input)
+    (projectile-find-file-with-initial-value query)))
+
+(defun projectile-find-file-with-initial-value (initial-val)
+  "Useful to call after reloading the project cache while the find file dialog still open."
+  (interactive)
+  (let ((file (projectile-completing-read "Find file: "
+                                            (projectile-current-project-files) initial-val)))
+      (find-file (expand-file-name file (projectile-project-root)))
+      (run-hooks 'projectile-find-file-hook)))
+
+;; Bind "M-r" when the find-files minibuffer is open to refresh Projectile's cache. This is a common need when
+;; you open a find files dialog and realize a newly added file is not there due to a stale cache.
+;; NOTE(philc): Ideally we would bind this key in ido-file-completion-map, but minibuffer-local-map has M-r
+;; bound already. Also, minor note: for some reason, typing this keybinding recursively fails with "Error in
+;; post-command hook..."
+(define-key minibuffer-local-map (kbd "M-r")
+  (lambda ()
+    (interactive)
+    (setq previous-projectile-input (minibuffer-contents))
+    (projectile-invalidate-cache nil)
+    ;; Reference for running code after `minibuffer-keyboard-quit`: http://stackoverflow.com/q/21000540/46237
+    (add-hook 'post-command-hook 'restart-projectile-find-file-hook)
+    (minibuffer-keyboard-quit)))
+
+;;
 ;; escreen (tabs)
 ;;
 ;; I use one tab per "workspace" (i.e. open project). All of my tab-related config is geared towards that use
