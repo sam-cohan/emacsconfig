@@ -20,6 +20,7 @@
 (evil-define-key 'normal clojure-mode-map "K"
   (lambda () (interactive) (util/preserve-selected-window (lambda () (call-interactively 'cider-doc)))))
 
+(setq cider-prompt-for-symbol nil)
 (evil-define-key 'normal clojure-mode-map "gd" 'cider-find-var)
 (evil-define-key 'normal clojure-mode-map "gb" 'cider-pop-back)
 
@@ -159,6 +160,7 @@
   "es" 'cider-eval-defun-at-point
   "ex" 'cider-eval-last-sexp
   "er" 'cider-eval-region
+  "ll" 'cider-inspect-last-result
   ;; "eap" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-eval-paragraph))
   ;; "ek" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-find-and-clear-repl-buffer))
   ;; "eb" (lambda ()
