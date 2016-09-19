@@ -225,6 +225,12 @@
 (defadvice windmove-right (before other-window-now activate) (util/save-buffer-if-dirty))
 ;; When switching focus out of the Emacs app, save the buffer.
 (add-hook 'focus-out-hook 'util/save-buffer-if-dirty) ; This hook is only available in Emacs 24.4+.
+(defun switch-to-evil-normal-state-on-focus-out ()
+   ;; Don't switch to the normal state in a minibuffer. In the minibuffer we should always be in insert mode.
+   ;; Otheriwse the UX becomes confusing.
+   (when (not (window-minibuffer-p))
+     (evil-normal-state)))
+(add-hook 'focus-out-hook 'switch-to-evil-normal-state-on-focus-out)
 (add-hook 'focus-out-hook '(lambda () (evil-normal-state))) ; This hook is only available in Emacs 24.4+.
 
 ; This is fired whenever the buffer list is updated, which is a reasonably robust way to detect that the
