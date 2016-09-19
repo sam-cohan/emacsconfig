@@ -257,8 +257,8 @@
 ;; Unbind "q" so it doesn't record macros. I activate this mistakenly all the time and then wreak havoc.
 (define-key evil-normal-state-map (kbd "q") nil)
 
-(define-key evil-normal-state-map (kbd "M-s") 'save-buffer)
-(define-key evil-insert-state-map (kbd "M-s") 'save-buffer)
+;; (define-key evil-normal-state-map (kbd "M-s") 'save-buffer)
+;; (define-key evil-insert-state-map (kbd "M-s") 'save-buffer)
 
 ;; Move up and down through long, wrapped lines one visual line at a time.
 (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
@@ -527,6 +527,7 @@
                   (kbd "M-q") 'save-buffers-kill-terminal
                   ;; (kbd "M-n") 'new-frame
                   (kbd "M-a") 'mark-whole-buffer
+                  (kbd "M-s") 'explicitly-save-buffer
                   ;; (kbd "M-h") 'ns-do-hide-emacs
                   (kbd "M-v") 'clipboard-yank
                   (kbd "M-c") 'clipboard-kill-ring-save
@@ -592,6 +593,15 @@
      (one-escreen
       (evil-quit)
       nil))))
+
+;; make the cljfmt stuff only run on explicit saves to avoid background saves causing issues
+(defvar before-explicit-save-hook nil)
+(defvar after-explicit-save-hook nil)
+(defun explicitly-save-buffer ()
+  (interactive)
+  (run-hooks 'before-explicit-save-hook)
+  (save-buffer)
+  (run-hooks 'after-explicit-save-hook))
 
 ;;
 ;; Filename completions (i.e. CTRL-P or CMD-T in other editors)
