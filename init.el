@@ -265,6 +265,10 @@
 (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
 (define-key evil-normal-state-map (kbd "K") 'info-lookup-symbol)
 
+;; previous and next buffers using <>
+(define-key evil-normal-state-map (kbd "<") 'previous-buffer)
+(define-key evil-normal-state-map (kbd ">") 'next-buffer)
+
 ;; This splits the current line at the cursor position.
 (define-key evil-normal-state-map (kbd "RET") 'newline-and-indent)
 ;; This creates a newline below the current line, like open, but does not enter insert mode.
