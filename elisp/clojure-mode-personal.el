@@ -11,6 +11,7 @@
   ;; Count hyphens, etc. as word characters in lisps
   (modify-syntax-entry ?- "w" clojure-mode-syntax-table)
   (modify-syntax-entry ?: "w" clojure-mode-syntax-table)
+  (modify-syntax-entry ?> "w" clojure-mode-syntax-table)
 
   ;; Comment lines using only one semi-colon instead of two.
   (setq indent-line-function 'lisp-indent-line-single-semicolon-fix)
