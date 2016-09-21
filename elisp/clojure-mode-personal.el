@@ -10,6 +10,7 @@
 (defun setup-clojure-buffer ()
   ;; Count hyphens, etc. as word characters in lisps
   (modify-syntax-entry ?- "w" clojure-mode-syntax-table)
+  (modify-syntax-entry ?: "w" clojure-mode-syntax-table)
 
   ;; Comment lines using only one semi-colon instead of two.
   (setq indent-line-function 'lisp-indent-line-single-semicolon-fix)
@@ -158,7 +159,8 @@
   "eb" 'cider-load-buffer
   ;; "eb" 'cider-load-file
   "es" 'cider-eval-defun-at-point
-  "ex" 'cider-eval-last-sexp
+  "ex" 'cider-eval-sexp-at-point
+  "el" 'cider-eval-last-sexp
   "er" 'cider-eval-region
   "ll" 'cider-inspect-last-result
   ;; "eap" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-eval-paragraph))
