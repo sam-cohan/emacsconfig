@@ -241,6 +241,7 @@
 ;; Evil mode -- Vim keybindings for Emacs.
 ;;
 (setq evil-want-C-u-scroll t)
+(setq evil-want-fine-undo t)
 (require 'evil-leader) ; Provide configuration functions for assigning actions to a Vim leader key.
 (require 'evil)
 (require 'evil-nerd-commenter)
