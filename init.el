@@ -231,7 +231,7 @@
    (when (not (window-minibuffer-p))
      (evil-normal-state)))
 (add-hook 'focus-out-hook 'switch-to-evil-normal-state-on-focus-out)
-(add-hook 'focus-out-hook '(lambda () (evil-normal-state))) ; This hook is only available in Emacs 24.4+.
+; (add-hook 'focus-out-hook '(lambda () (evil-normal-state))) ; This hook is only available in Emacs 24.4+.
 
 ; This is fired whenever the buffer list is updated, which is a reasonably robust way to detect that the
 ; window config has changed and the current buffer should be saved.
