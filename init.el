@@ -1030,6 +1030,9 @@
 ;; Rainbow-delimiters: highlight parentheses in rainbow colors.
 ;;
 (require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+;; make colors use stronger colors
+
 (require 'cl-lib)
 (require 'color)
 (cl-loop
@@ -1037,7 +1040,20 @@
  do
  (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
    (cl-callf color-saturate-name (face-foreground face) 30)))
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+;; make unmatched parens stand out more
+(set-face-attribute 'rainbow-delimiters-unmatched-face nil
+                    :foreground 'unspecified
+                    :inherit 'error
+                    :strike-through t)
+
+;; Some hard-coded colors in case you are not happy with the lib ones...
+;; (rainbow-delimiters-depth-2-face ((t (:foreground "#3A8CD7"))))
+;; (rainbow-delimiters-depth-3-face ((t (:foreground "#44D7BC"))))
+;; (rainbow-delimiters-depth-4-face ((t (:foreground "#C9D736"))))
+;; (rainbow-delimiters-depth-5-face ((t (:foreground "#D79841"))))
+;; (rainbow-delimiters-depth-6-face ((t (:foreground "#D7604A"))))
+;; (rainbow-delimiters-depth-7-face ((t (:foreground "#D777A9"))))
+;; (rainbow-delimiters-depth-8-face ((t (:foreground "#5D7CD7"))))
 
 ;;
 ;; Smartparens utility functions. Used by emacs lisp and clojure.
