@@ -1032,30 +1032,36 @@
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 ;; make colors use stronger colors
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "#3A8CD7"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "#44D7BC"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "#C9D736"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "#D79841"))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "#D7604A"))))
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "#D777A9"))))
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "#5D7CD7"))))
+ '(rainbow-delimiters-mismatched-face ((t (:background "#FF0000" :foreground "#FFFFFF"))))
+ '(rainbow-delimiters-unmatched-face ((t (:background "#FF0000" :foreground "#FFFFFF")))))
 
-(require 'cl-lib)
-(require 'color)
-(cl-loop
- for index from 1 to rainbow-delimiters-max-face-count
- do
- (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
-   (cl-callf color-saturate-name (face-foreground face) 30)))
+;; ;; an alternative approach to having accented colors
+;; (require 'cl-lib)
+;; (require 'color)
+;; (cl-loop
+;;  for index from 1 to rainbow-delimiters-max-face-count
+;;  do
+;;  (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
+;;    (cl-callf color-saturate-name (face-foreground face) 30)))
+
 ;; make unmatched parens stand out more
 (set-face-attribute 'rainbow-delimiters-unmatched-face nil
                     :foreground 'unspecified
                     :inherit 'error
                     :strike-through t)
 
-;; Some hard-coded colors in case you are not happy with the lib ones...
-;; (rainbow-delimiters-depth-2-face ((t (:foreground "#3A8CD7"))))
-;; (rainbow-delimiters-depth-3-face ((t (:foreground "#44D7BC"))))
-;; (rainbow-delimiters-depth-4-face ((t (:foreground "#C9D736"))))
-;; (rainbow-delimiters-depth-5-face ((t (:foreground "#D79841"))))
-;; (rainbow-delimiters-depth-6-face ((t (:foreground "#D7604A"))))
-;; (rainbow-delimiters-depth-7-face ((t (:foreground "#D777A9"))))
-;; (rainbow-delimiters-depth-8-face ((t (:foreground "#5D7CD7"))))
-
-;;
 ;; Smartparens utility functions. Used by emacs lisp and clojure.
 ;;
 (require 'smartparens)
