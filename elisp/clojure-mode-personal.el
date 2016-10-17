@@ -12,6 +12,7 @@
   (modify-syntax-entry ?- "w" clojure-mode-syntax-table)
   (modify-syntax-entry ?: "w" clojure-mode-syntax-table)
   (modify-syntax-entry ?> "w" clojure-mode-syntax-table)
+  (modify-syntax-entry ?_ "w" clojure-mode-syntax-table)
 
   ;; Comment lines using only one semi-colon instead of two.
   (setq indent-line-function 'lisp-indent-line-single-semicolon-fix)
@@ -164,6 +165,7 @@
   "el" 'cider-eval-last-sexp
   "er" 'cider-eval-region
   "ll" 'cider-inspect-last-result
+  "lt" 'cider-inspect
   ;; "eap" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-eval-paragraph))
   ;; "ek" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-find-and-clear-repl-buffer))
   ;; "eb" (lambda ()
