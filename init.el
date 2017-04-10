@@ -192,7 +192,7 @@
 (util/define-keys minibuffer-local-map
                   (kbd "C-k") 'kill-line
                   (kbd "C-e") 'end-of-line
-                  (kbd "C-u") 'backward-kill-line
+                  ;; (kbd "C-u") 'backward-kill-line
                   (kbd "C-d") 'delete-char
                   (kbd "C-w") 'backward-kill-word)
 
@@ -240,7 +240,7 @@
 ;;
 ;; Evil mode -- Vim keybindings for Emacs.
 ;;
-(setq evil-want-C-u-scroll t)
+;; (setq evil-want-C-u-scroll t)
 (setq evil-want-fine-undo t)
 (require 'evil-leader) ; Provide configuration functions for assigning actions to a Vim leader key.
 (require 'evil)
@@ -353,7 +353,7 @@
 (util/define-keys evil-insert-state-map
                   (kbd "C-k") 'kill-line
                   (kbd "C-e") 'end-of-line
-                  (kbd "C-u") 'backward-kill-line
+                  ;; (kbd "C-u") 'backward-kill-line
                   (kbd "C-a") 'beginning-of-line
                   (kbd "C-d") 'delete-char)
 

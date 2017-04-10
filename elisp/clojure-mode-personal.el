@@ -183,6 +183,11 @@
   ;; "er" (lambda () (interactive) (with-nrepl-connection-of-current-buffer 'cider-eval-region))
 )
 
+(evil-leader/set-key-for-mode 'cider-inspector-mode
+  "n" 'cider-inspector-next-page
+  "p" 'cider-inspector-prev-page
+)
+
 ;; Clojure indentation rules
 (eval-after-load 'clojure-mode
   '(define-clojure-indent
