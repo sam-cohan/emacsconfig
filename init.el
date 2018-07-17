@@ -70,6 +70,22 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
+;; When using the Emacs GUI, you may encounter problems related to expected environment variables ($REPOS etc.) not being set
+(defun sync-env ()
+  (when (memq window-system '(mac ns x))
+    (let ((env-pair-re "^\\([^=[:space:]]+\\)=\\(.*\\)$"))
+      (with-temp-buffer
+        (shell-command (concat shell-file-name " -i -c env") t)
+        (goto-char (point-min))
+        (while (re-search-forward env-pair-re nil t)
+          (let ((name (match-string 1))
+                (val (match-string 2)))
+            (setenv name val)
+            (when (string-equal "PATH" name)
+              (setq eshell-path-env val
+                    exec-path (append (parse-colon-path val) (list exec-directory))))))))))
+(sync-env)
+
 ;;
 ;; General settings
 ;;
